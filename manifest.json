@@ -1,0 +1,20 @@
+{
+  "name": "電子雞｜Mii Lab",
+  "short_name": "電子雞",
+  "description": "復古電子雞養成遊戲 · 真實時間 · 16 天養成 · 6 種進化",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f2ea",
+  "theme_color": "#7c3aed",
+  "lang": "zh-TW",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
