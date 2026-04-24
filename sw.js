@@ -1,6 +1,6 @@
 // Service Worker · Mii Lab 電子雞
 // 部署新版時，把下方 VERSION 跟 index.html 的 APP_VERSION 一起調（例如 1.2.0 → 1.3.0）
-const VERSION = '1.3.0';
+const VERSION = '1.0.0';
 const CACHE = `tamagotchi-mii-${VERSION}`;
 const ASSETS = ['./', './index.html', './manifest.json', './icon.svg'];
 
