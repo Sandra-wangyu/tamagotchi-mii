@@ -36,7 +36,7 @@
     gap: 24px;
   }
   .device {
-    width: 290px;
+    width: 340px;
     background:
       radial-gradient(ellipse at 28% 15%, rgba(255,255,255,.45) 0%, transparent 45%),
       radial-gradient(ellipse at 75% 85%, rgba(0,0,0,.2) 0%, transparent 50%),
@@ -63,10 +63,49 @@
   }
   .device::before {
     content: "TAMAGO"; position: absolute; top: 26px; left: 50%; transform: translateX(-50%);
-    font-size: 10px; color: var(--logo, #facc15); letter-spacing: 5px; font-weight: 900;
+    font-size: 11px; color: var(--logo, #facc15); letter-spacing: 5px; font-weight: 900;
     text-shadow: 0 0 10px var(--logo-glow, rgba(250,204,21,.5)), 0 1px 0 rgba(0,0,0,.3);
     z-index: 2;
   }
+  .hanger {
+    position: absolute;
+    top: -78px; left: 50%; transform: translateX(-50%);
+    width: 20px; height: 20px;
+    border: 3px solid #9ca3af;
+    border-radius: 50%;
+    background: transparent;
+    z-index: 3;
+    box-shadow: 0 2px 4px rgba(0,0,0,.2), inset 0 1px 2px rgba(255,255,255,.4);
+  }
+  .chain-line {
+    position: absolute;
+    top: -58px; left: 50%; transform: translateX(-50%);
+    width: 3px; height: 44px;
+    background: repeating-linear-gradient(
+      180deg,
+      #9ca3af 0, #9ca3af 3px,
+      #4b5563 3px, #4b5563 6px
+    );
+    border-radius: 2px;
+    z-index: 1;
+  }
+  .hamburger {
+    position: absolute;
+    top: 16px; left: 16px;
+    width: 30px; height: 30px;
+    background: rgba(0,0,0,.55);
+    border: 1.5px solid rgba(255,255,255,.5);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 5;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, transform .1s;
+    padding: 0;
+  }
+  .hamburger:hover { background: rgba(0,0,0,.75); }
+  .hamburger:active { transform: scale(.9); }
   .antenna {
     position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
     width: 30px; height: 30px;
@@ -294,9 +333,27 @@
     padding: 24px;
     border-radius: 12px;
     min-width: 260px;
+    max-height: 88vh;
+    overflow-y: auto;
     text-align: center;
     box-shadow: 0 12px 40px rgba(0,0,0,.3);
+    position: relative;
   }
+  .modal-close-x {
+    position: absolute;
+    top: 8px; right: 10px;
+    width: 32px; height: 32px;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: #888;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .modal-close-x:hover { background: #eee; color: #333; }
   .modal-box h2 { margin-bottom: 12px; color: #e86ca3; }
   .modal-box input {
     width: 100%; padding: 10px;
@@ -346,6 +403,62 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,.1);
   }
+  .dev-panel {
+    display: none;
+    margin-top: 12px;
+    max-width: 340px;
+    width: 100%;
+    background: #fff;
+    border: 2px dashed #e86ca3;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .dev-panel.active { display: block; }
+  .dev-panel summary {
+    cursor: pointer;
+    color: #e86ca3;
+    padding: 4px 0;
+    font-weight: bold;
+  }
+  .dev-row {
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 6px; flex-wrap: wrap;
+  }
+  .dev-label {
+    font-size: 11px; color: #888;
+    width: 60px; flex-shrink: 0;
+  }
+  .dev-btn {
+    font-family: inherit;
+    padding: 3px 8px;
+    font-size: 11px;
+    border: 1px solid #ccc;
+    background: #f5f5f5;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .dev-btn:hover { background: #e8e8e8; }
+  .dev-btn:active { background: #d5d5d5; }
+  .species-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .sp-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 8px 4px;
+    text-align: center;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+  .sp-card.locked {
+    background: #f3f3f3;
+    color: #aaa;
+  }
+  .sp-card .sp-emo { font-size: 22px; display:block; margin-bottom: 2px; }
   .attention {
     position: absolute; top: 6px; right: 6px;
     background: #ff3a3a; color: white;
@@ -358,6 +471,19 @@
     z-index: 3;
   }
   .attention:hover { transform: scale(1.15); }
+  .screen-text {
+    position: absolute;
+    bottom: 10px; left: 0; right: 0;
+    text-align: center;
+    font-family: 'jf-openhuninn', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    color: #0f380f;
+    text-shadow: 0 0 2px rgba(155,188,15,.8);
+    letter-spacing: 1px;
+    pointer-events: none;
+  }
+  .screen-text.hidden { display: none; }
   .attention.hidden { display: none; }
   @keyframes blink { 50% { opacity: .3; } }
   .stage-label {
@@ -372,6 +498,9 @@
 
 <div class="app">
   <div class="device">
+    <div class="hanger"></div>
+    <div class="chain-line"></div>
+    <button class="hamburger" id="hamburger" aria-label="選單">☰</button>
     <div class="antenna"></div>
     <div class="screen-frame">
       <div class="icon-row" id="iconRowTop"></div>
@@ -380,6 +509,7 @@
         <canvas id="canvas" width="96" height="96"></canvas>
         <div class="dialog hidden" id="dialog"></div>
         <div class="attention hidden" id="attention">!</div>
+        <div class="screen-text hidden" id="screenText"></div>
       </div>
       <div class="icon-row" id="iconLabelsBot"></div>
       <div class="icon-row" id="iconRowBot"></div>
@@ -400,12 +530,70 @@
     </div>
     <div class="stage-label" id="stageLabel"></div>
   </div>
-  <div class="theme-picker" id="themePicker"></div>
-  <button id="installBtn" class="install-btn">加到手機主畫面 / 變 App</button>
+  <details class="dev-panel" id="devPanel">
+    <summary>🧪 管理員 · 開發測試</summary>
+    <div class="dev-row"><span class="dev-label">快進時間</span>
+      <button class="dev-btn" data-ff="0.0167">+1分</button>
+      <button class="dev-btn" data-ff="0.083">+5分</button>
+      <button class="dev-btn" data-ff="0.5">+30分</button>
+      <button class="dev-btn" data-ff="1">+1小時</button>
+      <button class="dev-btn" data-ff="6">+6小時</button>
+      <button class="dev-btn" data-ff="24">+1天</button>
+      <button class="dev-btn" data-ff="72">+3天</button>
+      <button class="dev-btn" data-ff="168">+1週</button>
+    </div>
+    <div class="dev-row"><span class="dev-label">強制進化</span>
+      <button class="dev-btn" data-stage="next">下一階段</button>
+      <button class="dev-btn" data-stage="adult">直達成年</button>
+    </div>
+    <div class="dev-row"><span class="dev-label">預覽物種</span>
+      <select class="dev-btn" id="devSpSelect" style="padding:3px 6px">
+        <option value="">選擇物種...</option>
+        <option value="legendary">🌟 傳說神獸</option>
+        <option value="wizard">🧙 魔法師雞</option>
+        <option value="robot">🤖 機器雞</option>
+        <option value="dragon">🐉 小龍</option>
+        <option value="vampire">🧛 吸血雞</option>
+        <option value="flower">🌸 花雞</option>
+        <option value="angel">👼 天使雞</option>
+        <option value="divine">⚡ 神獸</option>
+        <option value="cute">💕 可愛雞</option>
+        <option value="derp">🤪 呆呆雞</option>
+        <option value="monster">👹 怪物雞</option>
+        <option value="skull">💀 骷髏雞</option>
+      </select>
+    </div>
+    <div class="dev-row"><span class="dev-label">數值</span>
+      <button class="dev-btn" data-fill="all">全滿</button>
+      <button class="dev-btn" data-fill="drain">掉光</button>
+      <button class="dev-btn" data-poop="add">生便便</button>
+    </div>
+    <div class="dev-row"><span class="dev-label">登出</span>
+      <button class="dev-btn" id="adminLogout">退出管理模式</button>
+    </div>
+  </details>
   <footer class="credit">
-    Made with ♡ by <b>Mii Lab｜人生企劃室</b><br>
-    <small>字型：<a href="https://github.com/justfont/open-huninn-font" target="_blank">jf 粉圓</a>（justfont · SIL OFL）</small>
+    Made with ♡ by <a href="https://www.threads.net/@mkt_girleat" target="_blank" rel="noopener"><b>Mii Lab｜人生企劃室</b></a><br>
+    <small>v<span id="versionLabel"></span> · 字型：<a href="https://github.com/justfont/open-huninn-font" target="_blank">jf 粉圓</a></small>
   </footer>
+</div>
+
+<div class="modal hidden" id="introModal">
+  <div class="modal-box" style="max-width:380px;text-align:left">
+    <h2 style="text-align:center">🥚 歡迎來到電子雞</h2>
+    <p style="text-align:center;color:#666;margin-bottom:10px">這是你未來 <b>16 天</b>的寶貝</p>
+    <div style="background:#fef9c3;padding:10px;border-radius:8px;margin-bottom:10px;font-size:13px;line-height:1.6">
+      · <b>每天照顧</b>：餵食、遊戲、清理、散步<br>
+      · <b>真實時間</b>：不玩也會餓、會長大<br>
+      · <b>不照顧會生病、會死，進墓園</b><br>
+      · 你的照顧方式 → 決定進化成哪種
+    </div>
+    <p style="text-align:center;color:#666;margin-bottom:6px;font-size:13px">你的寶貝會變成這 <b>12 種</b>其中一種：</p>
+    <div id="speciesGrid" class="species-grid"></div>
+    <div style="text-align:center;margin-top:14px">
+      <button id="introStart" style="background:#e86ca3;color:white;padding:12px 32px;font-size:15px">開始孵蛋 🐣</button>
+    </div>
+  </div>
 </div>
 
 <div class="modal hidden" id="nameModal">
@@ -415,6 +603,83 @@
     <input id="nameInput" maxlength="8" placeholder="寶貝">
     <div>
       <button id="nameOk">確定</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="hamburgerModal">
+  <div class="modal-box" style="max-width:300px">
+    <h2>設定</h2>
+    <div class="menu-grid">
+      <button class="menu-item" data-ham="theme">🎨<br>外殼顏色</button>
+      <button class="menu-item" data-ham="install">📱<br>加到手機</button>
+      <button class="menu-item" data-ham="about">ℹ️<br>關於/版本</button>
+      <button class="menu-item" data-ham="reset">🗑<br>重置資料</button>
+    </div>
+    <div style="margin-top:12px;text-align:center">
+      <button id="hamburgerClose" style="background:#888">關閉</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="themeModal">
+  <div class="modal-box" style="max-width:360px">
+    <h2>選擇外殼顏色</h2>
+    <div class="theme-picker" id="themePicker" style="margin-top:8px"></div>
+    <div style="margin-top:14px;text-align:center">
+      <button id="themeClose" style="background:#888">完成</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="aboutModal">
+  <div class="modal-box" style="max-width:360px;text-align:left">
+    <h2 style="text-align:center">關於</h2>
+    <p style="text-align:center;margin-bottom:10px">
+      <b>電子雞</b> · v<span id="aboutVersion"></span><br>
+      <small style="color:#666">Mii Lab｜人生企劃室</small>
+    </p>
+    <div style="background:#fef9c3;padding:10px;border-radius:8px;margin-bottom:10px;font-size:13px">
+      <b>📖 遊戲規則</b><br>
+      <span style="color:#555">
+      · 真實時間養成 16 天<br>
+      · 蛋 → 幼 → 童 → 青 → 成年<br>
+      · 不照顧會生病、會死<br>
+      · 共 12 種進化可能，看你怎麼養
+      </span>
+    </div>
+    <div style="background:#f3e8ff;padding:10px;border-radius:8px;margin-bottom:10px;font-size:13px">
+      <b>📋 更新紀錄</b>
+      <div id="changelogList" style="margin-top:6px"></div>
+    </div>
+    <div style="text-align:center">
+      <button id="aboutClose">關閉</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="shareModal">
+  <div class="modal-box" style="max-width:380px">
+    <h2>🎴 寵物卡片</h2>
+    <p style="color:#666;font-size:13px;margin-bottom:10px">預覽：</p>
+    <img id="shareImg" alt="寵物卡片" style="width:100%;max-width:320px;border-radius:8px;border:1px solid #eee;display:block;margin:0 auto 12px">
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button id="shareDownload">💾 下載 PNG</button>
+      <button id="shareNative" style="background:#3b82f6;color:white">📤 分享到 App</button>
+    </div>
+    <p style="font-size:11px;color:#999;margin-top:10px;text-align:center">分享到 IG / LINE / Threads / 訊息</p>
+  </div>
+</div>
+
+<div class="modal hidden" id="feedModal">
+  <div class="modal-box" style="max-width:280px">
+    <h2>餵什麼？</h2>
+    <div class="menu-grid">
+      <button class="menu-item" data-food="meal">🍚<br>正餐<br><small style="color:#666">飽足 +30</small></button>
+      <button class="menu-item" data-food="snack">🍭<br>零食<br><small style="color:#666">開心 +15<br>吃多變怪物</small></button>
+    </div>
+    <div style="margin-top:10px;text-align:center">
+      <button id="feedClose" style="background:#888">取消</button>
     </div>
   </div>
 </div>
@@ -477,13 +742,26 @@
 </div>
 
 <script>
+/* ========== 版本 ========== */
+const APP_VERSION = '1.3.0';
+const CHANGELOG = [
+  { v:'1.3.0', notes:['成年 12 種全部變彩色 + 放大 2 倍，辨識度飆升','青少年以下維持單色復古 LCD 風','Dev 面板物種預覽改下拉選單','localhost 自動進管理模式'] },
+  { v:'1.2.4', notes:['分享改成先預覽卡片 → 再選下載或分享到 App'] },
+  { v:'1.2.3', notes:['修正：餵食「正餐/零食」按不動（跟 C 選單 class 衝突被覆寫）'] },
+  { v:'1.2.2', notes:['修正：漢堡按鈕/B 鍵失效的嚴重 bug（installBtn 殘留 null reference）','所有彈窗右上角加 X 關閉按鈕','彈窗過長時可捲動'] },
+  { v:'1.2.1', notes:['Mii Lab 連結到 Threads','管理模式（?admin=密碼 登入 dev 面板）','漢堡縮小 · Service Worker 自動更新','清便便門檻 90 分→20 分','便便清完後自動重置倒數'] },
+  { v:'1.2.0', notes:['12 種進化形態（新增魔法師/機器/小龍/吸血/花雞）','食物分正餐零食','Intro 說明畫面','漢堡選單介面','外殼放大 + 鏈子造型'] },
+  { v:'1.1.0', notes:['隱藏傳說神獸','成就徽章 12 項','累積統計','寵物卡片 PNG 分享','PWA 加到手機'] },
+  { v:'1.0.0', notes:['初版釋出','8 種互動 · 5 項數值 · 7 種一般進化','16 天真實時間養成','11 款外殼顏色'] }
+];
+
 /* ========== 資料常數 ========== */
 const STAGES = ['egg','baby','child','teen','adult','dead'];
 const STAGE_NAMES = { egg:'🥚 蛋', baby:'👶 幼年', child:'🧒 兒童', teen:'🧑 青年', adult:'💪 成年', dead:'👻 過世' };
 
 // 以分鐘為單位
 const STAGE_DURATIONS_MIN = {
-  egg: 10,               // 10 分
+  egg: 1,                // 1 分鐘
   baby: 6 * 60,          // 6 小時
   child: 2 * 24 * 60,    // 2 天
   teen: 4 * 24 * 60,     // 4 天
@@ -527,13 +805,18 @@ const THEMES = {
 };
 
 const SPECIES = {
-  legendary: { name:'傳說神獸', need:95, rare:true },
-  angel:     { name:'天使雞',   need:85 },
-  divine:    { name:'神獸',     need:70 },
-  cute:      { name:'可愛雞',   need:50 },
-  derp:      { name:'呆呆雞',   need:30 },
-  monster:   { name:'怪物雞',   need:10 },
-  skull:     { name:'骷髏雞',   need:0  }
+  legendary: { name:'傳說神獸', tag:'🌟完美照顧', rare:true },
+  wizard:    { name:'魔法師雞', tag:'🧙嚴格紀律' },
+  robot:     { name:'機器雞',   tag:'🤖熱愛遊戲' },
+  dragon:    { name:'小龍',     tag:'🐉愛運動' },
+  flower:    { name:'花雞',     tag:'🌸愛乾淨' },
+  vampire:   { name:'吸血雞',   tag:'🧛常生病' },
+  angel:     { name:'天使雞',   tag:'👼高分養成' },
+  divine:    { name:'神獸',     tag:'⚡中上照顧' },
+  cute:      { name:'可愛雞',   tag:'💕一般養成' },
+  derp:      { name:'呆呆雞',   tag:'🤪隨便養' },
+  monster:   { name:'怪物雞',   tag:'👹零食過多' },
+  skull:     { name:'骷髏雞',   tag:'💀疏忽照顧' }
 };
 
 /* ========== 狀態管理 ========== */
@@ -543,9 +826,11 @@ function loadState() {
   try {
     const s = JSON.parse(localStorage.getItem(SAVE_KEY)) || defaultState();
     // 舊存檔補欄位
-    if (!s.totals) s.totals = { fed:0, played:0, cleaned:0, bathed:0, walked:0, medded:0, disciplined:0, hatched:0 };
+    if (!s.totals) s.totals = { fed:0, played:0, cleaned:0, bathed:0, walked:0, medded:0, disciplined:0, hatched:0, snack:0, sick:0 };
+    if (s.totals && !('snack' in s.totals)) { s.totals.snack = 0; s.totals.sick = 0; }
     if (!s.achievements) s.achievements = {};
-    if (s.pet && !s.pet.counters) s.pet.counters = { fed:0, played:0, cleaned:0, bathed:0, walked:0, medded:0, disciplined:0 };
+    if (s.pet && !s.pet.counters) s.pet.counters = { fed:0, played:0, cleaned:0, bathed:0, walked:0, medded:0, disciplined:0, snack:0, sick:0 };
+    if (s.pet && s.pet.counters && !('snack' in s.pet.counters)) { s.pet.counters.snack = 0; s.pet.counters.sick = 0; }
     return s;
   }
   catch { return defaultState(); }
@@ -555,7 +840,7 @@ function defaultState() {
     pet: null,
     graveyard: [],
     careHistory: [],
-    totals: { fed: 0, played: 0, cleaned: 0, bathed: 0, walked: 0, medded: 0, disciplined: 0, hatched: 0 },
+    totals: { fed: 0, played: 0, cleaned: 0, bathed: 0, walked: 0, medded: 0, disciplined: 0, hatched: 0, snack: 0, sick: 0 },
     achievements: {}
   };
 }
@@ -573,7 +858,7 @@ function newPet(name) {
     bornAt: now,
     lastTick: now,
     stats: { hunger: 80, happy: 80, clean: 90, health: 100, discipline: 50 },
-    counters: { fed:0, played:0, cleaned:0, bathed:0, walked:0, medded:0, disciplined:0 },
+    counters: { fed:0, played:0, cleaned:0, bathed:0, walked:0, medded:0, disciplined:0, snack:0, sick:0 },
     poops: [],
     sick: false,
     sleeping: false,
@@ -591,6 +876,8 @@ function newPet(name) {
 
 function bumpCounter(key) {
   if (!state.pet) return;
+  if (!state.pet.counters) state.pet.counters = {};
+  if (!state.totals) state.totals = {};
   state.pet.counters[key] = (state.pet.counters[key] || 0) + 1;
   state.totals[key] = (state.totals[key] || 0) + 1;
   checkAchievements();
@@ -644,9 +931,9 @@ function tick() {
     if (p.sick) hpDrop += 0.25 * dtMin;
     p.stats.health = Math.max(0, p.stats.health - hpDrop);
 
-    // 便便生成（吃飽後 1~3 小時）
+    // 便便生成（首次孵化後 20 分鐘，之後每次清完重算）
     const sincePoopMin = (now - p.lastPoopAt) / 60000;
-    if (!p.sleeping && sincePoopMin > 90 && Math.random() < 0.02 * dtMin && p.poops.length < 4) {
+    if (!p.sleeping && sincePoopMin > 20 && Math.random() < 0.05 * dtMin && p.poops.length < 4) {
       p.poops.push({ x: 10 + Math.floor(Math.random() * 76) });
       p.lastPoopAt = now;
     }
@@ -654,6 +941,7 @@ function tick() {
     // 隨機生病
     if (!p.sick && p.stats.clean < 30 && Math.random() < 0.005 * dtMin) {
       p.sick = true;
+      bumpCounter('sick');
       showDialog(`${p.name} 生病了！`);
     }
 
@@ -711,6 +999,31 @@ function tick() {
   saveState();
 }
 
+function determineSpecies(p) {
+  const score = p.careSamples > 0 ? p.careSum / p.careSamples : 50;
+  const c = p.counters || {};
+  const snackRatio = (c.fed || 0) > 0 ? (c.snack || 0) / c.fed : 0;
+
+  // 完美照顧 → 傳說
+  if (score >= 95) return 'legendary';
+
+  // 特殊路徑（條件要夠努力才能觸發）
+  if ((c.played || 0) >= 30 && (c.disciplined || 0) >= 10) return 'robot';
+  if ((c.walked || 0) >= 25 && p.stats.health >= 70) return 'dragon';
+  if ((c.bathed || 0) >= 15 && (c.cleaned || 0) >= 10) return 'flower';
+  if ((c.disciplined || 0) >= 15 && score >= 65) return 'wizard';
+  if ((c.sick || 0) >= 3) return 'vampire';
+  if (snackRatio >= 0.6 && (c.fed || 0) >= 15) return 'monster';
+
+  // 分數階梯
+  if (score >= 80) return 'angel';
+  if (score >= 60) return 'divine';
+  if (score >= 40) return 'cute';
+  if (score >= 20) return 'derp';
+  if (score >= 5) return 'monster';
+  return 'skull';
+}
+
 function checkEvolution(now) {
   const p = state.pet;
   const ageMin = (now - p.bornAt) / 60000;
@@ -731,17 +1044,12 @@ function checkEvolution(now) {
 
   if (newStage !== p.stage && p.stage !== 'egg') {
     p.stage = newStage;
+    startAction('birthday', 3500);
     if (newStage === 'adult') {
-      // 決定物種（高 → 低 依序檢查，第一個符合就取）
-      const score = p.careSamples > 0 ? p.careSum / p.careSamples : 50;
-      let species = 'skull';
-      for (const key of ['legendary','angel','divine','cute','derp','monster']) {
-        if (score >= SPECIES[key].need) { species = key; break; }
-      }
-      p.species = species;
-      showDialog(`${p.name} 進化成${SPECIES[species].name}！`);
+      p.species = determineSpecies(p);
+      showDialog(`🎉 ${p.name} 進化成${SPECIES[p.species].name}！`);
     } else {
-      showDialog(`${p.name} 長大了！`);
+      showDialog(`🎉 ${p.name} 長大了！`);
     }
   }
 }
@@ -893,17 +1201,17 @@ const SPRITES = {
     ".11......11."
   ],
   // 成年形態：都比 teen 更大，每種有獨特裝飾
-  adult_angel: [ // 18x18 天使 · 超大光環+翅膀
-    "......1111........",
-    ".....11....1......",
-    ".....11.....1.....",
-    "......1....1......",
-    ".......1111.......",
-    "..1..111111..1....",
-    "1111.1111111.1111.",
-    "1111111111111111..",
+  adult_angel: [ // 18x18 天使 · 金光環 + 白身 + 粉腮紅
+    "......2222........",
+    ".....22....2......",
+    ".....22.....2.....",
+    "......2....2......",
+    ".......2222.......",
+    "..3..111111..3....",
+    "3333.1111111.3333.",
+    "3333111111113333..",
     "11.1111111111.11..",
-    "11.1.111111.1.11..",
+    "11.4.111111.4.11..",
     "111111111111111...",
     "11.111.11.111.11..",
     "11.1.1.11.1.1.11..",
@@ -913,18 +1221,18 @@ const SPRITES = {
     "..111.....111.....",
     "..11.......11....."
   ],
-  adult_divine: [ // 18x16 神獸 · 三尖王冠
-    "......1.........",
-    ".....111........",
-    ".....111........",
-    "...1.111.1......",
-    "...11.1.11......",
-    "...11.1.11......",
-    "..11111111......",
+  adult_divine: [ // 18x16 神獸 · 金冠 + 藍身
+    "......2.........",
+    ".....222........",
+    ".....222........",
+    "...2.222.2......",
+    "...22.2.22......",
+    "...22222.22.....",
+    "..22222222......",
     ".1111111111.....",
     "111111111111....",
-    "11.111.111.11...",
-    "11.1.1.1.1.11...",
+    "11.444.444.11...",
+    "11.4.4.4.4.11...",
     "1111111111111...",
     "111.111111.11...",
     "11111111111.....",
@@ -933,19 +1241,19 @@ const SPRITES = {
     ".11.........1...",
     ".1...........1.."
   ],
-  adult_cute: [ // 17x18 可愛 · 超大蝴蝶結
-    "..11.....11.......",
-    ".1.1.....1.1......",
-    "..11.....11.......",
-    "..1111111111......",
-    "..1..11.11..1.....",
-    "..1111111111......",
+  adult_cute: [ // 17x18 可愛 · 桃紅蝴蝶結 + 粉身
+    "..22.....22.......",
+    ".2.2.....2.2......",
+    "..22.....22.......",
+    "..2222222222......",
+    "..2..33.33..2.....",
+    "..2222222222......",
     "...111111111......",
     "..11111111111.....",
     ".1111111111111....",
     "111111111111111...",
-    "11.11.11.11.11....",
-    "1.1.1.11.1.1.11...",
+    "11.44.11.44.11....",
+    "1.4.4.11.4.4.11...",
     "111111111111111...",
     ".1.11111111.11....",
     "..11.1.1.1.11.....",
@@ -953,58 +1261,58 @@ const SPRITES = {
     "..111.....111.....",
     "..11.......11....."
   ],
-  adult_derp: [ // 16x16 呆呆 · 歪頭+舌頭
-    "......1.........",
-    "......1.........",
-    ".....11.........",
+  adult_derp: [ // 16x16 呆呆 · 黃身 + 紅舌頭
+    "......3.........",
+    "......3.........",
+    ".....33.........",
     "....1111........",
     "...111111.......",
     "..1111111111....",
     ".111111111111...",
     "11111111111111..",
-    "1.1.111.1.11.11.",
-    "11.1.1.11.11.11.",
+    "1.4.111.1.44.11.",
+    "11.4.1.11.44.11.",
     "1111111111111...",
-    "111.11.11.11....",
-    "111.111.1111....",
-    ".1111.11.11.....",
+    "111.22.22.11....",
+    "111.222.2211....",
+    ".1112.22.11.....",
     "..11111111......",
     "..11....11......"
   ],
-  adult_monster: [ // 17x18 怪物 · 尖角+獠牙
-    ".11..........11...",
-    ".111........111...",
-    ".111........111...",
-    "..11........11....",
+  adult_monster: [ // 17x18 怪物 · 暗紅身 + 白獠牙 + 橘眼
+    ".22..........22...",
+    ".222........222...",
+    ".222........222...",
+    "..22........22....",
     "..11.11111..11....",
     "...1111111111.....",
     "..11111111111.....",
     ".1111111111111....",
     "111111111111111...",
-    "111.111.111.111...",
-    "1.1.1.1.1.1.1.1...",
+    "111.444.444.111...",
+    "1.1.4.4.4.4.1.1...",
     "111111111111111...",
     "1111.....1111.....",
     "11111111111111....",
-    "1.1.1.1.1.1.1.1...",
-    ".11.11.11.11.11...",
-    "11.11....11.11....",
-    "11...........1...."
+    "2.2.2.2.2.2.2.2...",
+    ".22.22.22.22.22...",
+    "22.22....22.22....",
+    "22...........2...."
   ],
-  adult_legendary: [ // 20x18 傳說 · 皇冠+光環+翅膀+星光
-    "........1.........",
-    ".......111........",
-    "......11111.......",
-    ".....1111111......",
-    "..1..11.1.11..1...",
-    "..11..11111..11...",
-    "...11.11111.11....",
-    "....1111111.......",
-    "..111111111111....",
-    ".111..11.11..111..",
-    "11111111111111111.",
+  adult_legendary: [ // 20x18 傳說 · 金身 + 白光環 + 橘翅
+    "........2.........",
+    ".......222........",
+    "......22222.......",
+    ".....2222222......",
+    "..2..22.2.22..2...",
+    "..22..22222..22...",
+    "...22.22222.22....",
+    "....2222222.......",
+    "..333111111333....",
+    ".333..11.11..333..",
+    "33311111111111333.",
     "11.111111111.11...",
-    "11.1.111.1.1.11...",
+    "11.4.111.4.1.11...",
     "11111111111111....",
     "1.1111111111.1....",
     ".11.11.11.11.11...",
@@ -1013,21 +1321,114 @@ const SPRITES = {
     "..11.......11.....",
     "..1.........1....."
   ],
-  adult_skull: [ // 14x14 骷髏 · 大頭
+  adult_wizard: [ // 18x16 魔法師 · 紫帽+黃星+紫身
+    ".....2........",
+    "....222.......",
+    "...22222......",
+    "..2222222.....",
+    ".22.22.222....",
+    "222.22.2222...",
+    "..22222222....",
+    "..111111111...",
+    ".1111111111...",
+    "11.444.444.1..",
+    "11.4.4.4.4.1..",
+    "11111111111...",
+    "1.111.1.111...",
+    "1111111111....",
+    "..11....22....",
+    "..11.2..22....",
+    "..1..2...2....",
+    ".....2........"
+  ],
+  adult_robot: [ // 16x15 機器 · 銀身 + 紅燈 + 深灰細節
+    "..2...2.........",
+    "..2...2.........",
+    "..22222.........",
+    ".1111111........",
+    "111111111.......",
+    "1111111111......",
+    "1.33.44.33.1....",
+    "11.33.44.311....",
+    "11111.11111.....",
+    "1.2.1.1.2.1.....",
+    "11111111111.....",
+    "3.3.3.3.3.3.....",
+    "11111111111.....",
+    "11.11111.11.....",
+    "1...111...1.....",
+    "....111........."
+  ],
+  adult_dragon: [ // 17x18 小龍 · 綠鱗 + 紅腹 + 金眼
+    "..3.......3......",
+    ".33.......33.....",
+    "111111111111.....",
+    "1.111111111.1....",
+    "1.11111111.1.1...",
+    "111111111111....",
+    "1111111111111...",
+    "11.444.444.11...",
+    "11.4.4.4.4.11...",
+    "1111111111111...",
+    "11.222222222....",
+    "2.2.2.2.2.2.2...",
+    "22222222222.....",
+    ".11.11.11.11....",
+    ".1.111.111.1....",
+    "..11....11......",
+    "..1......1......"
+  ],
+  adult_vampire: [ // 16x16 吸血 · 黑身 + 血紅翅 + 白獠牙
+    "22...........22.",
+    "222.........222.",
+    "2222.......2222.",
+    "2.222.....222.2.",
+    "2..22222222..2..",
+    "2..222222222.2..",
+    "...2222222222...",
+    "..11111111111...",
+    "..11.44.44.11...",
+    "..111111111.....",
+    "..4.444.4.4.....",
+    "...4.4.4.4......",
+    "...11111........",
+    "....1.1.........",
+    "....1.1.........",
+    "....1.1........."
+  ],
+  adult_flower: [ // 16x14 花雞 · 粉身 + 綠葉 + 黃蕊
+    "...22.22......",
+    "..2222222.....",
+    "..22.33.22....",
+    "..22333322....",
+    "...222222.....",
+    "....2222......",
+    "....2222......",
+    "...111111.....",
+    "..11111111....",
+    ".1111111111...",
+    "11.444.444.11.",
+    "11.4.4.4.4.11.",
+    "111111111111..",
+    "1111111111....",
+    "111.11.111....",
+    "11.....11....."
+  ],
+  adult_skull: [ // 14x14 骷髏 · 骨白 + 黑眼窩
     "...11111111...",
     "..111111111...",
     ".11111111111..",
     "1111111111111.",
     "11111111111111",
-    "11.111.111.11.",
-    "11.1.1.1.1.11.",
-    "11.111.111.11.",
+    "11.222.222.11.",
+    "11.2.2.2.2.11.",
+    "11.222.222.11.",
     ".1111111111...",
     "..11111111....",
-    "..1.1.1.1.1...",
-    "..111.1.111...",
-    "...11.1.11....",
-    "....11.11....."
+    "..2.2.2.2.2...",
+    "..222.2.222...",
+    "...22.2.22....",
+    "....22.22....."
   ],
   poop: [
     "..11..",
@@ -1151,16 +1552,35 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 
-function drawSprite(sprite, x, y, color = '#0f380f') {
+function drawSprite(sprite, x, y, palette = null, scale = 1) {
+  if (typeof palette === 'string') palette = { '1': palette, '2': palette, '3': palette, '4': palette };
+  if (!palette) palette = { '1': '#0f380f', '2': '#306230', '3': '#8bac0f', '4': '#fff' };
   for (let row = 0; row < sprite.length; row++) {
     for (let col = 0; col < sprite[row].length; col++) {
-      if (sprite[row][col] !== '.' && sprite[row][col] !== ' ') {
-        ctx.fillStyle = color;
-        ctx.fillRect(x + col, y + row, 1, 1);
+      const ch = sprite[row][col];
+      if (ch !== '.' && ch !== ' ' && palette[ch]) {
+        ctx.fillStyle = palette[ch];
+        ctx.fillRect(x + col * scale, y + row * scale, scale, scale);
       }
     }
   }
 }
+
+// 12 種成年物種的彩色 palette
+const SPECIES_PALETTE = {
+  legendary: { '1':'#fbbf24', '2':'#fef08a', '3':'#ea580c', '4':'#fff' }, // 金色+淺黃+橘
+  wizard:    { '1':'#8b5cf6', '2':'#fbbf24', '3':'#4c1d95', '4':'#fff' }, // 紫+黃星+深紫
+  robot:     { '1':'#94a3b8', '2':'#ef4444', '3':'#334155', '4':'#06b6d4' }, // 銀+紅+深灰+青
+  dragon:    { '1':'#10b981', '2':'#dc2626', '3':'#065f46', '4':'#fbbf24' }, // 綠+紅+深綠+金眼
+  vampire:   { '1':'#374151', '2':'#dc2626', '3':'#0f172a', '4':'#fff' }, // 黑+血紅+白獠牙
+  flower:    { '1':'#ec4899', '2':'#22c55e', '3':'#fbbf24', '4':'#fff' }, // 粉+綠葉+黃心
+  angel:     { '1':'#fef3c7', '2':'#fbbf24', '3':'#fb7185', '4':'#fff' }, // 米白+金光環+腮紅
+  divine:    { '1':'#3b82f6', '2':'#fbbf24', '3':'#1e40af', '4':'#fff' }, // 藍+金冠+深藍
+  cute:      { '1':'#f9a8d4', '2':'#ec4899', '3':'#be185d', '4':'#fff' }, // 粉+桃粉+深粉
+  derp:      { '1':'#fde047', '2':'#ef4444', '3':'#ca8a04', '4':'#fff' }, // 黃+紅舌+深黃
+  monster:   { '1':'#991b1b', '2':'#fff', '3':'#fb923c', '4':'#fef08a' }, // 暗紅+白牙+橘眼
+  skull:     { '1':'#f3f4f6', '2':'#1f2937', '3':'#6b7280', '4':'#ef4444' } // 骨白+黑眼窩
+};
 
 function render() {
   // 背景（關燈就暗）
@@ -1228,23 +1648,28 @@ function render() {
   const wobble = (p.sleeping || p.stage === 'egg') ? 0 : (Math.floor(p.frame / 30) % 2 ? 1 : 0);
 
   // 依 sprite 大小置中 + 底部對齊（不同階段體型差異明顯）
-  const sw = sprite[0].length;
-  const sh = sprite.length;
+  // 成年放大 2 倍（整數倍保持像素清晰）
+  const scale = (p.stage === 'adult') ? 2 : 1;
+  const sw = sprite[0].length * scale;
+  const sh = sprite.length * scale;
   const spriteX = (96 - sw) >> 1;
   const spriteY = 76 - sh + bounce - wobble;
-  drawSprite(sprite, spriteX, spriteY);
+  // 成年才用彩色 palette；幼童青少年維持單色復古 LCD
+  const palette = (p.stage === 'adult' && p.species && SPECIES_PALETTE[p.species])
+    ? SPECIES_PALETTE[p.species] : null;
+  drawSprite(sprite, spriteX, spriteY, palette, scale);
 
-  // 蛋階段：顯示倒數
+  // 蛋階段：HTML 層顯示倒數（字體清晰）
+  const screenText = document.getElementById('screenText');
   if (p.stage === 'egg') {
     const elapsedMin = (Date.now() - p.bornAt) / 60000;
     const remain = Math.max(0, STAGE_DURATIONS_MIN.egg - elapsedMin);
     const remainSec = Math.ceil(remain * 60);
-    ctx.fillStyle = '#0f380f';
-    ctx.font = 'bold 8px "Courier New", monospace';
-    ctx.textAlign = 'center';
     const txt = remainSec > 60 ? `${Math.ceil(remainSec/60)} 分後孵化` : `${remainSec} 秒後孵化`;
-    ctx.fillText(txt, 48, 84);
-    ctx.textAlign = 'start';
+    screenText.textContent = txt;
+    screenText.classList.remove('hidden');
+  } else {
+    screenText.classList.add('hidden');
   }
 
   // 便便
@@ -1359,6 +1784,7 @@ function openStatsDialog() {
   `;
   const box = document.getElementById('statsBox');
   box.innerHTML = html;
+  addCloseX(box);
   document.getElementById('statsModal').classList.remove('hidden');
   document.getElementById('statsClose').onclick = () => {
     document.getElementById('statsModal').classList.add('hidden');
@@ -1484,6 +1910,24 @@ function drawAction() {
       }
       break;
     }
+    case 'birthday': {
+      // 彩帶從天而降
+      for (let i = 0; i < 18; i++) {
+        const x = (i * 6 + frame * 3) % 96;
+        const y = (i * 12 + elapsed / 25) % 100;
+        ctx.fillStyle = '#0f380f';
+        ctx.fillRect(x | 0, y | 0, 2, 2);
+      }
+      // 閃爍字
+      ctx.fillStyle = '#0f380f';
+      ctx.font = 'bold 10px "Courier New", monospace';
+      ctx.textAlign = 'center';
+      if (Math.floor(elapsed / 300) % 2 === 0) {
+        ctx.fillText('♪ 長大了 ♪', 48, 16);
+      }
+      ctx.textAlign = 'start';
+      break;
+    }
     case 'light_on':
     case 'light_off': {
       ctx.fillStyle = '#0f380f';
@@ -1495,15 +1939,26 @@ function drawAction() {
 }
 
 /* ========== 動作 ========== */
-function doFeed(type) {
+function doFeed(type = 'meal') {
   const p = state.pet;
   if (p.stage === 'egg') return showDialog('蛋還沒孵化');
   if (p.sleeping) return showDialog(`${p.name} 在睡覺`);
-  if (p.stats.hunger >= 95) { showDialog(`${p.name} 吃不下了`); return; }
-  p.stats.hunger = Math.min(100, p.stats.hunger + 30);
-  bumpCounter('fed');
-  startAction('feed', 2000);
-  showDialog(`${p.name} 吃了一碗飯！`);
+  if (type === 'meal') {
+    if (p.stats.hunger >= 95) { showDialog(`${p.name} 吃不下了`); return; }
+    p.stats.hunger = Math.min(100, p.stats.hunger + 30);
+    bumpCounter('fed');
+    startAction('feed', 2000);
+    showDialog(`${p.name} 吃了一碗飯！`);
+  } else {
+    // snack：hunger +10、happy +15，但算在 snack count（太多影響進化）
+    if (p.stats.happy >= 95 && p.stats.hunger >= 80) { showDialog(`${p.name} 不想吃了`); return; }
+    p.stats.hunger = Math.min(100, p.stats.hunger + 10);
+    p.stats.happy = Math.min(100, p.stats.happy + 15);
+    bumpCounter('fed');
+    bumpCounter('snack');
+    startAction('feed', 2000);
+    showDialog(`${p.name} 吃了甜點！`);
+  }
   setTimeout(() => particles.push({ type:'heart', x: 55, y: 36, life: 40 }), 1800);
 }
 
@@ -1519,13 +1974,15 @@ function doBath() {
 function doClean() {
   const p = state.pet;
   if (p.stage === 'egg') return showDialog('蛋還沒孵化');
-  if (p.poops.length === 0) return showDialog('沒有便便要清');
+  if (p.poops.length === 0) return showDialog('現在還沒便便  （等一陣子就會有）');
   const n = p.poops.length;
   p.poops = [];
+  p.lastPoopAt = Date.now();
   p.stats.clean = Math.min(100, p.stats.clean + 10);
   bumpCounter('cleaned');
   startAction('clean', 1500);
   showDialog(`清掉 ${n} 坨便便`);
+  saveState();
 }
 
 function doPlay() {
@@ -1635,7 +2092,7 @@ document.getElementById('btnB').onclick = () => {
   if (mode === 'idle') {
     const ic = ICONS[selected];
     switch (ic.id) {
-      case 'feed':  doFeed('meal'); break;
+      case 'feed':  openFeedModal(); break;
       case 'light': doLight(); break;
       case 'play':  doPlay(); break;
       case 'med':   doMed(); break;
@@ -1671,10 +2128,25 @@ document.getElementById('btnC').onclick = () => {
 function openMenuModal() {
   document.getElementById('menuModal').classList.remove('hidden');
 }
+function openFeedModal() {
+  if (!state.pet) return;
+  if (state.pet.stage === 'egg') return showDialog('蛋還沒孵化');
+  if (state.pet.sleeping) return showDialog(`${state.pet.name} 在睡覺`);
+  document.getElementById('feedModal').classList.remove('hidden');
+}
+document.getElementById('feedClose').onclick = () => {
+  document.getElementById('feedModal').classList.add('hidden');
+};
+document.querySelectorAll('#feedModal [data-food]').forEach(btn => {
+  btn.onclick = () => {
+    document.getElementById('feedModal').classList.add('hidden');
+    doFeed(btn.dataset.food);
+  };
+});
 document.getElementById('menuClose').onclick = () => {
   document.getElementById('menuModal').classList.add('hidden');
 };
-document.querySelectorAll('.menu-item').forEach(btn => {
+document.querySelectorAll('#menuModal .menu-item').forEach(btn => {
   btn.onclick = () => {
     const act = btn.dataset.act;
     document.getElementById('menuModal').classList.add('hidden');
@@ -1732,10 +2204,14 @@ async function shareCard() {
   const sh = sprite.length * scale;
   const px = 400 - sw / 2;
   const py = 350 - sh / 2 + 30;
-  g.fillStyle = '#0f380f';
+  const palette = (p.stage === 'adult' && p.species && SPECIES_PALETTE[p.species])
+    ? SPECIES_PALETTE[p.species]
+    : { '1':'#0f380f', '2':'#306230', '3':'#8bac0f', '4':'#fff' };
   for (let r = 0; r < sprite.length; r++) {
     for (let c = 0; c < sprite[r].length; c++) {
-      if (sprite[r][c] !== '.' && sprite[r][c] !== ' ') {
+      const ch = sprite[r][c];
+      if (ch !== '.' && ch !== ' ' && palette[ch]) {
+        g.fillStyle = palette[ch];
         g.fillRect(px + c * scale, py + r * scale, scale, scale);
       }
     }
@@ -1778,27 +2254,38 @@ async function shareCard() {
   g.textAlign = 'center';
   g.fillText('Mii Lab ｜ 人生企劃室 · 電子雞', 400, 740);
 
-  // 匯出 PNG
-  cv.toBlob(async (blob) => {
-    const file = new File([blob], `${p.name}-電子雞.png`, { type: 'image/png' });
+  // 產生 PNG → 打開預覽彈窗
+  cv.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const img = document.getElementById('shareImg');
+    // 釋放前一張的 URL（避免記憶體洩漏）
+    if (img.dataset.url) URL.revokeObjectURL(img.dataset.url);
+    img.src = url;
+    img.dataset.url = url;
+
+    const fileName = `${p.name}-電子雞.png`;
+    const file = new File([blob], fileName, { type: 'image/png' });
     const txt = `我的電子雞「${p.name}」已經養了 ${days} 天，是一隻${speciesName}！`;
 
-    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share({ title: 'Mii Lab 電子雞', text: txt, files: [file] });
-        return;
-      } catch(e) {}
-    }
-    // Fallback: 下載
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${p.name}-電子雞.png`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    alert(`卡片已下載：${p.name}-電子雞.png`);
+    document.getElementById('shareDownload').onclick = () => {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
+    document.getElementById('shareNative').onclick = async () => {
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({ title: 'Mii Lab 電子雞', text: txt, files: [file] });
+        } catch(e) {}
+      } else {
+        alert('此瀏覽器不支援系統分享，請用「下載 PNG」儲存後手動上傳');
+      }
+    };
+
+    document.getElementById('shareModal').classList.remove('hidden');
   }, 'image/png');
 }
 
@@ -1808,6 +2295,27 @@ function openNameModal() {
   document.getElementById('nameModal').classList.remove('hidden');
   document.getElementById('nameInput').focus();
 }
+function openIntroModal() {
+  // 填入 12 種物種預覽
+  const seen = new Set();
+  state.graveyard.forEach(g => seen.add(g.species));
+  if (state.pet && state.pet.species) seen.add(SPECIES[state.pet.species].name);
+  const grid = document.getElementById('speciesGrid');
+  grid.innerHTML = Object.entries(SPECIES).map(([k, sp]) => {
+    const emo = (sp.tag.match(/\p{Extended_Pictographic}/u) || ['?'])[0];
+    const isRareHidden = sp.rare && !seen.has(sp.name);
+    const locked = isRareHidden;
+    const name = isRareHidden ? '???' : sp.name;
+    return `<div class="sp-card${locked ? ' locked' : ''}"><span class="sp-emo">${emo}</span>${name}</div>`;
+  }).join('');
+  document.getElementById('introModal').classList.remove('hidden');
+}
+document.getElementById('introStart').onclick = () => {
+  state.seenIntro = true;
+  saveState();
+  document.getElementById('introModal').classList.add('hidden');
+  openNameModal();
+};
 document.getElementById('nameOk').onclick = () => {
   const name = document.getElementById('nameInput').value.trim() || '寶貝';
   resetRuntime();
@@ -1844,9 +2352,6 @@ function openGraveModal() {
 }
 document.getElementById('graveClose').onclick = () => {
   document.getElementById('graveModal').classList.add('hidden');
-};
-document.getElementById('installBtn').onclick = () => {
-  document.getElementById('installModal').classList.remove('hidden');
 };
 document.getElementById('installClose').onclick = () => {
   document.getElementById('installModal').classList.add('hidden');
@@ -1886,6 +2391,22 @@ document.getElementById('newPet').onclick = () => {
   openNameModal();
 };
 
+/* ========== 每個 modal 自動加右上角 X 關閉按鈕 ========== */
+function addCloseX(box) {
+  if (!box || box.querySelector(':scope > .modal-close-x')) return;
+  const x = document.createElement('button');
+  x.className = 'modal-close-x';
+  x.type = 'button';
+  x.innerHTML = '×';
+  x.setAttribute('aria-label', '關閉');
+  x.onclick = () => {
+    const modal = box.closest('.modal');
+    if (modal) modal.classList.add('hidden');
+  };
+  box.insertBefore(x, box.firstChild);
+}
+document.querySelectorAll('.modal .modal-box').forEach(addCloseX);
+
 /* ========== 主題 ========== */
 function applyTheme(key) {
   const t = THEMES[key] || THEMES.violet;
@@ -1924,6 +2445,166 @@ function renderThemePicker() {
   });
 }
 
+/* ========== 管理員模式（URL ?admin=密碼 解鎖 dev 工具）========== */
+const ADMIN_KEY = 'mii-lab-admin'; // ← 密碼，要改的話改這個
+(function initAdmin() {
+  const params = new URLSearchParams(location.search);
+  if (params.get('admin') === ADMIN_KEY) {
+    localStorage.setItem('tamagotchi_admin', '1');
+    history.replaceState({}, '', location.pathname);
+  }
+  // localhost 自動開管理模式（本地測試用）
+  const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
+  const isAdmin = isLocalhost || localStorage.getItem('tamagotchi_admin') === '1';
+  if (isAdmin) {
+    const panel = document.getElementById('devPanel');
+    panel.classList.add('active');
+    // 綁定 dev 按鈕
+    panel.querySelectorAll('.dev-btn').forEach(btn => {
+      if (btn.tagName === 'SELECT') return; // select 另外處理
+      btn.onclick = () => {
+        if (btn.id === 'adminLogout') {
+          localStorage.removeItem('tamagotchi_admin');
+          location.reload();
+          return;
+        }
+        if (!state.pet) return alert('請先孵蛋');
+        const p = state.pet;
+        if (btn.dataset.ff) {
+          const ms = parseFloat(btn.dataset.ff) * 3600 * 1000;
+          p.bornAt -= ms; p.lastTick -= ms;
+          if (p.lastPoopAt) p.lastPoopAt -= ms;
+          tick();
+        }
+        if (btn.dataset.stage) {
+          const order = ['egg','baby','child','teen','adult'];
+          const target = btn.dataset.stage === 'next'
+            ? order[Math.min(order.indexOf(p.stage) + 1, order.length - 1)]
+            : btn.dataset.stage;
+          p.stage = target;
+          const before = {
+            egg: 0,
+            baby: STAGE_DURATIONS_MIN.egg,
+            child: STAGE_DURATIONS_MIN.egg + STAGE_DURATIONS_MIN.baby,
+            teen: STAGE_DURATIONS_MIN.egg + STAGE_DURATIONS_MIN.baby + STAGE_DURATIONS_MIN.child,
+            adult: STAGE_DURATIONS_MIN.egg + STAGE_DURATIONS_MIN.baby + STAGE_DURATIONS_MIN.child + STAGE_DURATIONS_MIN.teen
+          }[target];
+          p.bornAt = Date.now() - (before + 1) * 60000;
+          p.lastTick = Date.now();
+          if (target === 'adult' && !p.species) p.species = 'cute';
+          showDialog(`${p.name} 進化成 ${STAGE_NAMES[target]}！`);
+        }
+        if (btn.dataset.fill === 'all') {
+          p.stats = { hunger: 100, happy: 100, clean: 100, health: 100, discipline: 100 };
+          p.sick = false; p.poops = [];
+        }
+        if (btn.dataset.fill === 'drain') {
+          p.stats = { hunger: 5, happy: 5, clean: 5, health: 30, discipline: 50 };
+        }
+        if (btn.dataset.poop === 'add') {
+          p.poops.push({ x: 10 + Math.floor(Math.random() * 70) });
+        }
+        saveState();
+        render();
+      };
+    });
+    // 物種下拉選單
+    const spSelect = panel.querySelector('#devSpSelect');
+    if (spSelect) spSelect.onchange = () => {
+      if (!state.pet || !spSelect.value) return;
+      const p = state.pet;
+      p.stage = 'adult';
+      p.species = spSelect.value;
+      const before = STAGE_DURATIONS_MIN.egg + STAGE_DURATIONS_MIN.baby + STAGE_DURATIONS_MIN.child + STAGE_DURATIONS_MIN.teen;
+      p.bornAt = Date.now() - (before + 60) * 60000;
+      p.lastTick = Date.now();
+      saveState();
+      render();
+    };
+  }
+})();
+
+/* ========== 漢堡 / 關於 / 主題 / 重置 ========== */
+document.getElementById('versionLabel').textContent = APP_VERSION;
+document.getElementById('aboutVersion').textContent = APP_VERSION;
+document.getElementById('changelogList').innerHTML = CHANGELOG.map(v =>
+  `<div style="margin-top:8px"><b>v${v.v}</b><ul style="margin:2px 0 0 18px;padding:0;color:#555">${v.notes.map(n => `<li>${n}</li>`).join('')}</ul></div>`
+).join('');
+
+document.getElementById('hamburger').onclick = () => {
+  document.getElementById('hamburgerModal').classList.remove('hidden');
+};
+document.getElementById('hamburgerClose').onclick = () => {
+  document.getElementById('hamburgerModal').classList.add('hidden');
+};
+document.querySelectorAll('#hamburgerModal [data-ham]').forEach(btn => {
+  btn.onclick = () => {
+    const act = btn.dataset.ham;
+    document.getElementById('hamburgerModal').classList.add('hidden');
+    if (act === 'theme') {
+      document.getElementById('themeModal').classList.remove('hidden');
+      renderThemePicker();
+    }
+    else if (act === 'install') document.getElementById('installModal').classList.remove('hidden');
+    else if (act === 'about') document.getElementById('aboutModal').classList.remove('hidden');
+    else if (act === 'reset') {
+      if (confirm('確定要清除所有資料（寵物、墓園、成就、設定）？此動作無法復原')) {
+        localStorage.removeItem(SAVE_KEY);
+        localStorage.removeItem('tamagotchi_seen_version');
+        location.reload();
+      }
+    }
+  };
+});
+document.getElementById('themeClose').onclick = () => {
+  document.getElementById('themeModal').classList.add('hidden');
+};
+document.getElementById('aboutClose').onclick = () => {
+  document.getElementById('aboutModal').classList.add('hidden');
+};
+
+// 版本更新提示（第一次看到新版本跳 banner）
+const seenVersion = localStorage.getItem('tamagotchi_seen_version');
+if (seenVersion && seenVersion !== APP_VERSION) {
+  setTimeout(() => {
+    if (confirm(`🎉 電子雞更新到 v${APP_VERSION}！\n點確定看更新內容`)) {
+      document.getElementById('aboutModal').classList.remove('hidden');
+    }
+  }, 800);
+}
+localStorage.setItem('tamagotchi_seen_version', APP_VERSION);
+
+// Service Worker 註冊（自動抓最新 HTML + 離線也能玩）
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
+      .then((reg) => {
+        // 偵測到新版本
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // 有舊版本在跑、新版本就緒
+              if (confirm('🎉 電子雞有新版本可用\n點確定立即更新')) {
+                newWorker.postMessage({ type: 'SKIP_WAITING' });
+              }
+            }
+          });
+        });
+      })
+      .catch(() => {});
+
+    // 新 SW 接管後重新載入
+    let reloading = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (reloading) return;
+      reloading = true;
+      window.location.reload();
+    });
+  });
+}
+
 /* ========== 啟動 ========== */
 applyTheme(state.theme || 'violet');
 
@@ -1934,9 +2615,12 @@ function renderLoop() {
   requestAnimationFrame(renderLoop);
 }
 requestAnimationFrame(renderLoop);
-// 若無寵物，打開命名視窗
+// 若無寵物：首次看 Intro，之後直接命名
 if (!state.pet) {
-  setTimeout(openNameModal, 300);
+  setTimeout(() => {
+    if (!state.seenIntro) openIntroModal();
+    else openNameModal();
+  }, 300);
 }
 setInterval(tick, 1000);
 render();
