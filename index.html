@@ -115,41 +115,6 @@
   }
   .swatch:hover { transform: scale(1.15); }
   .swatch.active { border-color: #0f172a; transform: scale(1.25); box-shadow: 0 0 0 2px #fff, 0 0 8px rgba(0,0,0,.3); }
-  .dev-panel {
-    margin-top: 12px;
-    max-width: 340px;
-    width: 100%;
-    background: #fff;
-    border: 1px dashed #bbb;
-    border-radius: 10px;
-    padding: 8px 12px;
-    font-size: 12px;
-  }
-  .dev-panel summary {
-    cursor: pointer;
-    color: #666;
-    padding: 4px 0;
-    font-weight: bold;
-  }
-  .dev-row {
-    display: flex; align-items: center; gap: 6px;
-    margin-top: 6px; flex-wrap: wrap;
-  }
-  .dev-label {
-    font-size: 11px; color: #888;
-    width: 60px; flex-shrink: 0;
-  }
-  .dev-btn {
-    font-family: inherit;
-    padding: 3px 8px;
-    font-size: 11px;
-    border: 1px solid #ccc;
-    background: #f5f5f5;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  .dev-btn:hover { background: #e8e8e8; }
-  .dev-btn:active { background: #d5d5d5; }
   .install-btn {
     margin-top: 8px;
     background: #1f1f1f;
@@ -436,33 +401,6 @@
     <div class="stage-label" id="stageLabel"></div>
   </div>
   <div class="theme-picker" id="themePicker"></div>
-  <details class="dev-panel">
-    <summary>🧪 開發測試（加速觀察成長）</summary>
-    <div class="dev-row"><span class="dev-label">快進時間</span>
-      <button class="dev-btn" data-ff="1">+1小時</button>
-      <button class="dev-btn" data-ff="6">+6小時</button>
-      <button class="dev-btn" data-ff="24">+1天</button>
-      <button class="dev-btn" data-ff="72">+3天</button>
-    </div>
-    <div class="dev-row"><span class="dev-label">強制進化</span>
-      <button class="dev-btn" data-stage="next">下一階段</button>
-      <button class="dev-btn" data-stage="adult">直達成年</button>
-    </div>
-    <div class="dev-row"><span class="dev-label">預覽物種</span>
-      <button class="dev-btn" data-sp="legendary">🌟傳說</button>
-      <button class="dev-btn" data-sp="angel">天使</button>
-      <button class="dev-btn" data-sp="divine">神獸</button>
-      <button class="dev-btn" data-sp="cute">可愛</button>
-      <button class="dev-btn" data-sp="derp">呆呆</button>
-      <button class="dev-btn" data-sp="monster">怪物</button>
-      <button class="dev-btn" data-sp="skull">骷髏</button>
-    </div>
-    <div class="dev-row"><span class="dev-label">數值</span>
-      <button class="dev-btn" data-fill="all">全滿</button>
-      <button class="dev-btn" data-fill="drain">掉光</button>
-      <button class="dev-btn" data-poop="add">生便便</button>
-    </div>
-  </details>
   <button id="installBtn" class="install-btn">加到手機主畫面 / 變 App</button>
   <footer class="credit">
     Made with ♡ by <b>Mii Lab｜人生企劃室</b><br>
@@ -1988,68 +1926,6 @@ function renderThemePicker() {
 
 /* ========== 啟動 ========== */
 applyTheme(state.theme || 'violet');
-
-/* ========== 開發測試工具 ========== */
-document.querySelectorAll('.dev-btn').forEach(btn => {
-  btn.onclick = () => {
-    if (!state.pet) return alert('請先孵蛋');
-    const p = state.pet;
-
-    if (btn.dataset.ff) {
-      const ms = parseInt(btn.dataset.ff) * 3600 * 1000;
-      p.bornAt -= ms;
-      p.lastTick -= ms;
-      if (p.lastPoopAt) p.lastPoopAt -= ms;
-      tick();
-    }
-
-    if (btn.dataset.stage) {
-      const order = ['egg','baby','child','teen','adult'];
-      let target;
-      if (btn.dataset.stage === 'next') {
-        const idx = order.indexOf(p.stage);
-        target = order[Math.min(idx + 1, order.length - 1)];
-      } else {
-        target = btn.dataset.stage;
-      }
-      // 直接強制設定 stage，不依賴 tick
-      p.stage = target;
-      const before = {
-        egg: 0,
-        baby: STAGE_DURATIONS_MIN.egg,
-        child: STAGE_DURATIONS_MIN.egg + STAGE_DURATIONS_MIN.baby,
-        teen: STAGE_DURATIONS_MIN.egg + STAGE_DURATIONS_MIN.baby + STAGE_DURATIONS_MIN.child,
-        adult: STAGE_DURATIONS_MIN.egg + STAGE_DURATIONS_MIN.baby + STAGE_DURATIONS_MIN.child + STAGE_DURATIONS_MIN.teen
-      }[target];
-      p.bornAt = Date.now() - (before + 1) * 60000;
-      p.lastTick = Date.now();
-      if (target === 'adult' && !p.species) p.species = 'cute';
-      showDialog(`${p.name} 進化成 ${STAGE_NAMES[target]}！`);
-    }
-
-    if (btn.dataset.sp) {
-      p.stage = 'adult';
-      p.species = btn.dataset.sp;
-      const before = STAGE_DURATIONS_MIN.egg + STAGE_DURATIONS_MIN.baby + STAGE_DURATIONS_MIN.child + STAGE_DURATIONS_MIN.teen;
-      p.bornAt = Date.now() - (before + 60) * 60000;
-      p.lastTick = Date.now();
-      render();
-    }
-
-    if (btn.dataset.fill === 'all') {
-      p.stats = { hunger: 100, happy: 100, clean: 100, health: 100, discipline: 100 };
-      p.sick = false; p.poops = [];
-    }
-    if (btn.dataset.fill === 'drain') {
-      p.stats = { hunger: 5, happy: 5, clean: 5, health: 30, discipline: 50 };
-    }
-    if (btn.dataset.poop === 'add') {
-      p.poops.push({ x: 10 + Math.floor(Math.random() * 70) });
-    }
-    saveState();
-    render();
-  };
-});
 
 // 60fps 視覺渲染
 function renderLoop() {
